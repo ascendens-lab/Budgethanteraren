@@ -59,7 +59,13 @@ public class Budgethanteraren {
       while (!correct)
         try {
           belopp = new BigDecimal(IO.readln("Belopp: "));
-          correct = true;
+            if (belopp.compareTo(BigDecimal.ZERO) > 0) {
+                 correct = true;
+            } else {
+                IO.println("Ange beloppet som ett positivt värde. Välj sedan Utgift eller Inkomst.");
+            }
+
+
         }catch (NumberFormatException e){
           IO.println("Felaktigt format på beloppet.");
         }
