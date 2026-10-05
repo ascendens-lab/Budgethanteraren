@@ -83,7 +83,7 @@ public class Budgethanteraren {
     }
 
     //Använde Scaner då readln() inte vill läsa in å,ä,ö.
-    Scanner scanner = new Scanner(System.in);
+
     IO.print("Kateogori: ");
     kategori = scanner.nextLine();
 
@@ -124,8 +124,8 @@ public class Budgethanteraren {
 
       if (transaktioner.size()>0) {
 
-          for (i = 0; i < transaktioner.size(); i++)
-              IO.println(transaktioner.get(i));
+          for (Transaction transaktion: transaktioner )
+              IO.println(transaktion);
       } else {
           IO.println("Det finns inga transaktioner registrerade.");
       }
