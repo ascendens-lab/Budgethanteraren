@@ -15,6 +15,7 @@ public class Budgethanteraren {
   private LocalDate datum;
   private String kategori;
   private TransactionType transaktionsTyp;
+  private int i = 0;
 
   String menuInput;
   public void main(){
@@ -114,6 +115,16 @@ public class Budgethanteraren {
 
   }
   private void showTransactions() {
+
+      if (transaktioner.size()>0) {
+
+          for (i = 0; i < transaktioner.size(); i++)
+              IO.println(transaktioner.get(i));
+      } else {
+          IO.println("Det finns inga transaktioner registrerade.");
+      }
+
+
   }
   private void showTransacitonAndCategorySummary() {
   }
