@@ -2,13 +2,14 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.lang.IO.readln;
 
 public class Budgethanteraren {
   Scanner scanner = new Scanner(System.in);
 
- private List<Transaction> transaktioner = new ArrayList<>();
+ private final List<Transaction> transaktioner = new ArrayList<>();
 
   private int transaktionsIndex = 0;
   private BigDecimal belopp;
@@ -18,8 +19,14 @@ public class Budgethanteraren {
   private int i = 0;
 
   String menuInput;
+
+
+
   public void main(){
-    IO.println(System.getProperty("sun.stdin.encoding"));
+      testValues();
+
+
+
 
 
     do {
@@ -40,7 +47,7 @@ public class Budgethanteraren {
 
         case "1" -> addTransaction();
         case "2" -> showTransactions();
-        case "3" -> showTransacitonAndCategorySummary();
+        case "3" -> showTransactionAndCategorySummary();
         case "4" -> filterTransAction();
         case "5" -> saveToFile();
         case "e", "E" -> System.exit(0);
@@ -51,10 +58,11 @@ public class Budgethanteraren {
 
       }while (true);
 
-
   }
 
-  private void addTransaction() {
+
+
+    private void addTransaction() {
       boolean correct = false;
       while (!correct)
         try {
@@ -104,21 +112,6 @@ public class Budgethanteraren {
      }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   }
   private void showTransactions() {
 
@@ -132,7 +125,15 @@ public class Budgethanteraren {
 
 
   }
-  private void showTransacitonAndCategorySummary() {
+  private void showTransactionAndCategorySummary() {
+
+      Map<String, List<Transaction>> grupperade =
+              transaktioner.stream()
+                      .collect(Collectors.groupingBy(transaction -> transaction.kategori().toLowerCase()));
+                    //Grupperar transaktionerna efter kategori.
+
+      IO.println(grupperade);
+
   }
 
   private void filterTransAction() {
@@ -140,7 +141,77 @@ public class Budgethanteraren {
   private void saveToFile() {
   }
 
+   private void testValues(){
+       transaktioner.add(new Transaction(
+               new BigDecimal("346"),
+               LocalDate.of(2024, 3, 15),
+               "Nöje",
+               TransactionType.UTGIFT
+       ));
 
+       transaktioner.add(new Transaction(
+               new BigDecimal("25000"),
+               LocalDate.of(2024, 3, 25),
+               "lön",
+               TransactionType.INKOMST
+       ));
+
+       transaktioner.add(new Transaction(
+               new BigDecimal("8500"),
+               LocalDate.of(2024, 3, 28),
+               "boende",
+               TransactionType.UTGIFT
+       ));
+
+       transaktioner.add(new Transaction(
+               new BigDecimal("1250"),
+               LocalDate.of(2024, 4, 2),
+               "mat",
+               TransactionType.UTGIFT
+       ));
+
+       transaktioner.add(new Transaction(
+               new BigDecimal("500"),
+               LocalDate.of(2024, 4, 5),
+               "nöje",
+               TransactionType.UTGIFT
+       ));
+
+       transaktioner.add(new Transaction(
+               new BigDecimal("1200"),
+               LocalDate.of(2024, 4, 10),
+               "övrigt",
+               TransactionType.INKOMST
+       ));
+
+       transaktioner.add(new Transaction(
+               new BigDecimal("650"),
+               LocalDate.of(2024, 4, 12),
+               "transport",
+               TransactionType.UTGIFT
+       ));
+
+       transaktioner.add(new Transaction(
+               new BigDecimal("25000"),
+               LocalDate.of(2024, 4, 25),
+               "lön",
+               TransactionType.INKOMST
+       ));
+
+       transaktioner.add(new Transaction(
+               new BigDecimal("1100"),
+               LocalDate.of(2024, 4, 27),
+               "mat",
+               TransactionType.UTGIFT
+       ));
+
+       transaktioner.add(new Transaction(
+               new BigDecimal("299"),
+               LocalDate.of(2024, 4, 30),
+               "nöje",
+               TransactionType.UTGIFT
+       ));
+   }
 
 }
 
