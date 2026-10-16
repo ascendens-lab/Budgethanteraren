@@ -5,6 +5,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.lang.IO.readln;
+import static java.util.stream.Collectors.toList;
 
 public class Budgethanteraren {
   Scanner scanner = new Scanner(System.in);
@@ -137,12 +138,37 @@ public class Budgethanteraren {
   }
 
   private void filterTransAction() {
+             int filterVal;
+      boolean correct = false;
+        while (!correct)
+            try {
+                filterVal = Integer.parseInt(IO.readln("För utgifter tryck 1, för inkomter tryck 2: "));
+
+                switch (filterVal) {
+
+                    case 1 ->{
+                        IO.println(transaktioner.stream().filter((t) -> t.typ() == TransactionType.UTGIFT).toList());
+                        correct= true;
+                    }
+
+                   case 2 ->{
+                       IO.println(transaktioner.stream().filter(t -> t.typ() == TransactionType.INKOMST).toList());
+                       correct = true;
+                   }
+
+                    default -> IO.println("Felaktigt val.");
+                }
+
+            } catch (NumberFormatException e) {
+               IO.println("Felaktigt val.");
+
+            }
+
 
 
   }
   private void saveToFile() {
   }
-
    private void testValues(){
        transaktioner.add(new Transaction(
                new BigDecimal("346"),
