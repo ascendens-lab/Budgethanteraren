@@ -3,17 +3,16 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.stream.Collectors;
-
 import static java.lang.IO.readln;
-import static java.util.stream.Collectors.toList;
+
 
 public class Budgethanteraren {
   Scanner scanner = new Scanner(System.in);
+    private Repository<Transaction> repository = new Repository<>();
 
  private final List<Transaction> transaktioner = new ArrayList<>();
 
-  private int transaktionsIndex = 0;
-  private BigDecimal belopp;
+    private BigDecimal belopp;
   private LocalDate datum;
   private String kategori;
   private TransactionType transaktionsTyp;
@@ -21,13 +20,7 @@ public class Budgethanteraren {
 
   String menuInput;
 
-
-
   public void main(){
-      testValues();
-
-
-
 
 
     do {
@@ -42,7 +35,6 @@ public class Budgethanteraren {
       IO.println("e. Avsluta");
 
       menuInput = readln();
-
 
       switch (menuInput) {
 
@@ -60,9 +52,6 @@ public class Budgethanteraren {
       }while (true);
 
   }
-
-
-
     private void addTransaction() {
       boolean correct = false;
       while (!correct)
@@ -91,7 +80,7 @@ public class Budgethanteraren {
       }
     }
 
-    //Använde Scaner då readln() inte vill läsa in å,ä,ö.
+    //Använde Scanner då readln() inte vill läsa in å,ä,ö.
 
     IO.print("Kateogori: ");
     kategori = scanner.nextLine();
@@ -107,7 +96,11 @@ public class Budgethanteraren {
          IO.println("Ogiltig transaktionstyp. Ange INKOMST eller UTGIFT.");
        }
 
-       transaktioner.add(transaktionsIndex, new Transaction(belopp, datum,kategori,transaktionsTyp));
+         repository.add(
+                 new Transaction(belopp, datum, kategori, transaktionsTyp)
+         );
+
+//        transaktioner.add(transaktionsIndex, new Transaction(belopp, datum,kategori,transaktionsTyp));
 
 
      }
@@ -116,14 +109,13 @@ public class Budgethanteraren {
   }
   private void showTransactions() {
 
-      if (transaktioner.size()>0) {
+      if (repository.findAll().size()>0) {
 
-          for (Transaction transaktion: transaktioner )
-              IO.println(transaktion);
+          IO.println(repository.findAll());
+
       } else {
           IO.println("Det finns inga transaktioner registrerade.");
       }
-
 
   }
   private void showTransactionAndCategorySummary() {
@@ -142,17 +134,21 @@ public class Budgethanteraren {
       boolean correct = false;
         while (!correct)
             try {
-                filterVal = Integer.parseInt(IO.readln("För utgifter tryck 1, för inkomter tryck 2: "));
+                filterVal = Integer.parseInt(IO.readln("För utgifter tryck 1, för inkomster tryck 2: "));
 
                 switch (filterVal) {
 
                     case 1 ->{
-                        IO.println(transaktioner.stream().filter((t) -> t.typ() == TransactionType.UTGIFT).toList());
+                        IO.println(repository.findWhere(
+                                t -> t.typ() == TransactionType.UTGIFT
+                        ));
                         correct= true;
                     }
 
                    case 2 ->{
-                       IO.println(transaktioner.stream().filter(t -> t.typ() == TransactionType.INKOMST).toList());
+                       IO.println(repository.findWhere(
+                               t -> t.typ() == TransactionType.INKOMST
+                       ));
                        correct = true;
                    }
 
@@ -168,6 +164,7 @@ public class Budgethanteraren {
 
   }
   private void saveToFile() {
+      //Kommer senare.
   }
    private void testValues(){
        transaktioner.add(new Transaction(
