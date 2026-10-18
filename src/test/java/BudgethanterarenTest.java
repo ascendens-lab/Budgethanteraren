@@ -19,33 +19,7 @@ public class BudgethanterarenTest {
         assertEquals(List.of("Hej"), testRepository.findAll());
 
     }
-    @Test
-    void testFilterTransAction(){
-        Repository<Transaction> repository = new Repository<>();
-         Transaction lon = new Transaction(
-                new BigDecimal("100"),
-                LocalDate.of(2026, 10, 17),
-                "Lön",
-                TransactionType.INKOMST
-        );
 
-        Transaction noje = new Transaction(
-                new BigDecimal("50"),
-                LocalDate.of(2026, 10, 17),
-                "Nöje",
-                TransactionType.UTGIFT
-        );
-        repository.add(lon);
-        repository.add(noje);
-//        ************************************
-
-        List<Transaction> resultat =
-                repository.findWhere(t -> t.typ() == TransactionType.UTGIFT);
-//        ************************************
-
-        assertEquals(List.of(noje), resultat);
-
-    }
 
     @Test
     void testCalculateCategorySums(){
@@ -93,6 +67,36 @@ public class BudgethanterarenTest {
 
 
     }
+
+    @Test
+    void testFilterTransAction(){
+        Repository<Transaction> repository = new Repository<>();
+        Transaction lon = new Transaction(
+                new BigDecimal("100"),
+                LocalDate.of(2026, 10, 17),
+                "Lön",
+                TransactionType.INKOMST
+        );
+
+        Transaction noje = new Transaction(
+                new BigDecimal("50"),
+                LocalDate.of(2026, 10, 17),
+                "Nöje",
+                TransactionType.UTGIFT
+        );
+        repository.add(lon);
+        repository.add(noje);
+//        ************************************
+
+        List<Transaction> resultat =
+                repository.findWhere(t -> t.typ() == TransactionType.UTGIFT);
+//        ************************************
+
+        assertEquals(List.of(noje), resultat);
+
+    }
+
+
 //       private void testValues(){
 //           repository.add(new Transaction(
 //               new BigDecimal("346"),

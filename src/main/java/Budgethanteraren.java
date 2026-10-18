@@ -60,16 +60,20 @@ public class Budgethanteraren {
             if (belopp.compareTo(BigDecimal.ZERO) > 0) {
                  correct = true;
             } else {
-                IO.println("Ange beloppet som ett positivt värde. Välj sedan Utgift eller Inkomst.");
+                throw new InvalidTransactionException(
+                        "Beloppet måste vara positivt."  //Felmeddelandet skickas till konstruktorn
+                                                            // InvalidTransactionException() som parametern message.
+                );
             }
-
 
         }catch (NumberFormatException e){
           IO.println("Felaktigt format på beloppet.");
+        } catch (InvalidTransactionException e) {
+            IO.println(e.getMessage()); //e.getMessage() hämtar felmeddelandet
         }
 
 
-   correct = false;
+        correct = false;
     while (!correct) {
       try {
         datum = LocalDate.parse(IO.readln("Datum för transaktionen (xxxx-xx-xx): "));
@@ -93,6 +97,7 @@ public class Budgethanteraren {
          IO.println("Ogiltig transaktionstyp. Ange INKOMST eller UTGIFT.");
        }
 
+       if(correct)
          repository.add(
                  new Transaction(belopp, datum, kategori, transaktionsTyp)
          );
