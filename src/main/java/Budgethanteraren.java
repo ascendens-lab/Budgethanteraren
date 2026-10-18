@@ -9,8 +9,8 @@ import static java.lang.IO.readln;
 public class Budgethanteraren {
   Scanner scanner = new Scanner(System.in);
     private Repository<Transaction> repository = new Repository<>();
+    private BudgetCalculator budgetCalculator = new BudgetCalculator();
 
- private final List<Transaction> transaktioner = new ArrayList<>();
 
     private BigDecimal belopp;
   private LocalDate datum;
@@ -80,11 +80,8 @@ public class Budgethanteraren {
       }
     }
 
-    //Använde Scanner då readln() inte vill läsa in å,ä,ö.
-
-    IO.print("Kateogori: ");
-    kategori = scanner.nextLine();
-
+        IO.print("Kateogori: ");
+    kategori = scanner.nextLine();//Använde Scanner då readln() inte vill läsa in å,ä,ö.
 
            correct = false;
      while (!correct){
@@ -100,7 +97,6 @@ public class Budgethanteraren {
                  new Transaction(belopp, datum, kategori, transaktionsTyp)
          );
 
-//        transaktioner.add(transaktionsIndex, new Transaction(belopp, datum,kategori,transaktionsTyp));
 
 
      }
@@ -120,12 +116,11 @@ public class Budgethanteraren {
   }
   private void showTransactionAndCategorySummary() {
 
-      Map<String, List<Transaction>> grupperade =
-              transaktioner.stream()
-                      .collect(Collectors.groupingBy(transaction -> transaction.kategori().toLowerCase()));
-                    //Grupperar transaktionerna efter kategori.
+      Map<String, BigDecimal> summorPerKategori = budgetCalculator.calculateCategorySums(repository.findAll());
 
-      IO.println(grupperade);
+
+
+      IO.println(summorPerKategori);
 
   }
 
@@ -166,77 +161,7 @@ public class Budgethanteraren {
   private void saveToFile() {
       //Kommer senare.
   }
-   private void testValues(){
-       transaktioner.add(new Transaction(
-               new BigDecimal("346"),
-               LocalDate.of(2024, 3, 15),
-               "Nöje",
-               TransactionType.UTGIFT
-       ));
 
-       transaktioner.add(new Transaction(
-               new BigDecimal("25000"),
-               LocalDate.of(2024, 3, 25),
-               "lön",
-               TransactionType.INKOMST
-       ));
-
-       transaktioner.add(new Transaction(
-               new BigDecimal("8500"),
-               LocalDate.of(2024, 3, 28),
-               "boende",
-               TransactionType.UTGIFT
-       ));
-
-       transaktioner.add(new Transaction(
-               new BigDecimal("1250"),
-               LocalDate.of(2024, 4, 2),
-               "mat",
-               TransactionType.UTGIFT
-       ));
-
-       transaktioner.add(new Transaction(
-               new BigDecimal("500"),
-               LocalDate.of(2024, 4, 5),
-               "nöje",
-               TransactionType.UTGIFT
-       ));
-
-       transaktioner.add(new Transaction(
-               new BigDecimal("1200"),
-               LocalDate.of(2024, 4, 10),
-               "övrigt",
-               TransactionType.INKOMST
-       ));
-
-       transaktioner.add(new Transaction(
-               new BigDecimal("650"),
-               LocalDate.of(2024, 4, 12),
-               "transport",
-               TransactionType.UTGIFT
-       ));
-
-       transaktioner.add(new Transaction(
-               new BigDecimal("25000"),
-               LocalDate.of(2024, 4, 25),
-               "lön",
-               TransactionType.INKOMST
-       ));
-
-       transaktioner.add(new Transaction(
-               new BigDecimal("1100"),
-               LocalDate.of(2024, 4, 27),
-               "mat",
-               TransactionType.UTGIFT
-       ));
-
-       transaktioner.add(new Transaction(
-               new BigDecimal("299"),
-               LocalDate.of(2024, 4, 30),
-               "nöje",
-               TransactionType.UTGIFT
-       ));
-   }
 
 }
 

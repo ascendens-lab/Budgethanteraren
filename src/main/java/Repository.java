@@ -4,7 +4,7 @@ import java.util.function.Predicate;
 
 
 public class Repository<T> {
-    protected List<T> transaktioner = new ArrayList<>();
+    private List<T> transaktioner = new ArrayList<>();
 
 
     public void add(T item) {
