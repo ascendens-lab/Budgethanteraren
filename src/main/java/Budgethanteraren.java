@@ -1,9 +1,15 @@
+import javax.swing.*;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.*;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import static java.lang.IO.readln;
+
 
 
 public class Budgethanteraren {
@@ -21,6 +27,8 @@ public class Budgethanteraren {
   String menuInput;
 
   public void main(){
+
+      loadFromFile();
 
 
     do {
@@ -61,7 +69,7 @@ public class Budgethanteraren {
                  correct = true;
             } else {
                 throw new InvalidTransactionException(
-                        "Beloppet måste vara positivt."  //Felmeddelandet skickas till konstruktorn
+                        "Beloppet måste vara större än 0."  //Felmeddelandet skickas till konstruktorn
                                                             // InvalidTransactionException() som parametern message.
                 );
             }
@@ -164,9 +172,39 @@ public class Budgethanteraren {
 
   }
   private void saveToFile() {
-      //Kommer senare.
-  }
 
 
+
+
+}
+
+private void loadFromFile(){
+    String homeFolder = System.getProperty("user.home");
+    Path homePath = Path.of(homeFolder);
+    Path path = homePath.resolve("budgethanteraren/transaktioner", "transaktioner.csv");
+    IO.println(path);
+
+    if (Files.exists(path)) {
+        List<Transaction> transactions = new ArrayList<>();
+
+
+        try (Stream<String> lines = Files.lines(path)) {
+            lines
+                    .map(line -> line.trim().split(","))
+                    .map(recordKomponent -> new Transaction(new BigDecimal(recordKomponent[0]),
+                            LocalDate.parse(recordKomponent[1].trim()),
+                            recordKomponent[2].trim(),
+                            TransactionType.valueOf(recordKomponent[3].trim())))
+                    .forEach(repository::add);
+
+
+        } catch (IOException e) {
+
+            System.out.println("Kunde inte läsa filen: " + e.getMessage());
+        }
+
+
+    }
+}
 }
 
