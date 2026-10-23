@@ -7,16 +7,12 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.stream.Stream;
-
 import static java.lang.IO.readln;
-
-
 
 public class Budgethanteraren {
   Scanner scanner = new Scanner(System.in);
     private Repository<Transaction> repository = new Repository<>();
     private BudgetCalculator budgetCalculator = new BudgetCalculator();
-
 
     private BigDecimal belopp;
   private LocalDate datum;
