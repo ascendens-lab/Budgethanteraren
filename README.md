@@ -2,7 +2,7 @@
 
 Början med menyn och menyval med switch är samma som i föregående uppgift.
 Tanken var att göra någon form av visualisering innan jag började den här gången, men
-jag kom inte fram till något bra sätt att gör det på så jag gjorde som förra gången. 😊
+jag kom inte fram till något bra sätt att gör det på så jag gjorde som förra gången.😔😊
 Det innebar även den här gången en del merarbetet då jag först missade några av kraven, som att skapa
 en generisk klass.
 
@@ -30,6 +30,9 @@ När programmet läste in filen upptäckte jag att det kunde krascha om någon a
 
 Jag kompletterade felhanteringen med catch för de undantag som kunde uppstå vid felaktiga eller ofullständiga
 uppgifter i filen så att programmet kunde hantera felen utan att krascha.
+
+När jag skrev det här så kom jag på att jag inte hade någon kod som hanterade om det smugit sig in ett negativt värde
+för beloppen i filen med transaktionerna. Så det blev det sista jag lade till i programmet. 
 
 
 
